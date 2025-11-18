@@ -1,5 +1,5 @@
 <?php
-header("Access-Control-Allow-Origin: http://localhost:9002");  // your react dev URL
+header("Access-Control-Allow-Origin: https://carewiseausterlia.vercel.app/");  // your react dev URL
 header("Access-Control-Allow-Methods: POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
 
