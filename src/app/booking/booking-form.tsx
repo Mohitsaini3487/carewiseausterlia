@@ -94,7 +94,7 @@ export default function BookingForm() {
     formData.set("bookingDate", date ? format(date, "yyyy-MM-dd") : "");
 
     try {
-      const response = await fetch("http://https://carewiseausterlia.vercel.app//booking.php", {
+      const response = await fetch("https://carewiseausterlia.vercel.app//booking.php", {
         method: "POST",
         body: formData,
       });
