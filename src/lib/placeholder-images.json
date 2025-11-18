@@ -1,0 +1,52 @@
+{
+  "placeholderImages": [
+    {
+      "id": "hero",
+      "description": "Elderly person smiling with a caregiver",
+      "imageUrl": "https://images.unsplash.com/photo-1758988765049-8fa5f6e7d593?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxlbGRlcmx5JTIwcGVyc29uJTIwY2FyZWdpdmVyfGVufDB8fHx8MTc2MzQ3OTYyM3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "elderly person caregiver"
+    },
+    {
+      "id": "about-team",
+      "description": "A diverse group of smiling caregivers",
+      "imageUrl": "https://images.unsplash.com/flagged/photo-1567318362383-fa193e67bbd5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxjYXJlZ2l2ZXJzJTIwdGVhbXxlbnwwfHx8fDE3NjM0Nzk2MjN8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "caregivers team"
+    },
+    {
+      "id": "service-shopping",
+      "description": "A person helping an elderly individual with grocery shopping",
+      "imageUrl": "https://images.unsplash.com/photo-1521566652839-697aa473761a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxncm9jZXJ5JTIwc2hvcHBpbmd8ZW58MHx8fHwxNzYzNDM3NTUzfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "grocery shopping"
+    },
+    {
+      "id": "service-domestic",
+      "description": "A clean and tidy living room",
+      "imageUrl": "https://images.unsplash.com/photo-1569852573858-03c9e2877792?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxjbGVhbiUyMHJvb218ZW58MHx8fHwxNzYzNDQ5MjkzfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "clean room"
+    },
+    {
+      "id": "service-transport",
+      "description": "A person helping an elderly individual into a car",
+      "imageUrl": "https://images.unsplash.com/photo-1622403155914-28732f0303fd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxwZXJzb24lMjBjYXJ8ZW58MHx8fHwxNzYzNDQxMTUwfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "person car"
+    },
+    {
+      "id": "service-companion",
+      "description": "Two people having a conversation over tea",
+      "imageUrl": "https://images.unsplash.com/photo-1591344218495-c7370725593d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxjb252ZXJzYXRpb24lMjB0ZWF8ZW58MHx8fHwxNzYzNDc5NjIzfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "conversation tea"
+    },
+    {
+      "id": "service-welfare",
+      "description": "A caregiver checking in on an elderly person at home",
+      "imageUrl": "https://images.unsplash.com/photo-1762955911769-d652ceaa94bb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxjYXJlZ2l2ZXIlMjBob21lfGVufDB8fHx8MTc2MzQ3OTYyM3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "caregiver home"
+    },
+    {
+      "id": "contact-hero",
+      "description": "A smiling person on a headset in a bright office",
+      "imageUrl": "https://images.unsplash.com/photo-1613963931023-5dc59437c8a6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxjdXN0b21lciUyMHNlcnZpY2V8ZW58MHx8fHwxNzYzNDYzNTIzfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "customer service"
+    }
+  ]
+}

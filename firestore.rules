@@ -1,0 +1,70 @@
+/**
+ * @file Firestore Security Rules for CareWise Companion.
+ *
+ * Core Philosophy: This ruleset enforces a strict user-ownership model, where each user can only access their own profile and bookings.
+ *
+ * Data Structure:
+ * - User profiles are stored in `/users/{userId}`.
+ * - Bookings are stored in `/users/{userId}/bookings/{bookingId}`.
+ *
+ * Key Security Decisions:
+ * - Users can only create, read, update, and delete their own profiles.
+ * - Users can only create, read, update, and delete bookings associated with their profile.
+ * - Listing of all users is disallowed.
+ * - Listing of bookings is restricted to the owner.
+ *
+ * Denormalization for Authorization: Not required due to the simple path-based ownership model.
+ */
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    /**
+     * @description Allows users to manage their own profile.
+     * @path /users/{userId}
+     * @allow (create) - User with ID 'user_abc' creates their own profile. request.auth.uid == 'user_abc'.
+     * @allow (get, update, delete) - User with ID 'user_abc' reads, updates, or deletes their own profile. request.auth.uid == 'user_abc'.
+     * @deny (create, get, update, delete) - User with ID 'user_xyz' attempts to access user 'user_abc' profile. request.auth.uid == 'user_xyz'.
+     * @principle Enforces document ownership for writes.
+     */
+    match /users/{userId} {
+      function isOwner(userId) {
+        return request.auth != null && request.auth.uid == userId;
+      }
+
+      function isExistingOwner(userId) {
+        return isOwner(userId) && resource != null;
+      }
+
+      allow get: if isOwner(userId);
+      allow list: if false; // Listing all users is not permitted.
+      allow create: if isOwner(userId) && request.resource.data.id == userId;
+      allow update: if isExistingOwner(userId) && request.resource.data.id == resource.data.id;
+      allow delete: if isExistingOwner(userId);
+    }
+
+    /**
+     * @description Allows users to manage their own bookings.
+     * @path /users/{userId}/bookings/{bookingId}
+     * @allow (create) - User with ID 'user_abc' creates a booking under their profile. request.auth.uid == 'user_abc'.
+     * @allow (get, list, update, delete) - User with ID 'user_abc' reads, lists, updates, or deletes their own booking. request.auth.uid == 'user_abc'.
+     * @deny (create, get, update, delete) - User with ID 'user_xyz' attempts to access user 'user_abc' bookings. request.auth.uid == 'user_xyz'.
+     * @principle Enforces document ownership for writes.
+     */
+    match /users/{userId}/bookings/{bookingId} {
+      function isOwner(userId) {
+        return request.auth != null && request.auth.uid == userId;
+      }
+
+      function isExistingOwner(userId) {
+        return isOwner(userId) && resource != null;
+      }
+
+      allow get: if isOwner(userId);
+      allow list: if isOwner(userId);
+      allow create: if isOwner(userId);
+      allow update: if isExistingOwner(userId);
+      allow delete: if isExistingOwner(userId);
+    }
+  }
+}

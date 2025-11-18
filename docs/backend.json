@@ -1,0 +1,136 @@
+
+{
+  "entities": {
+    "User": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "User",
+      "type": "object",
+      "description": "Represents a user of the CareWise Companion application.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the user.",
+          "format": "uuid"
+        },
+        "firstName": {
+          "type": "string",
+          "description": "The first name of the user."
+        },
+        "lastName": {
+          "type": "string",
+          "description": "The last name of the user."
+        },
+        "email": {
+          "type": "string",
+          "description": "The email address of the user.",
+          "format": "email"
+        },
+        "phoneNumber": {
+          "type": "string",
+          "description": "The phone number of the user."
+        }
+      },
+      "required": [
+        "id",
+        "firstName",
+        "lastName",
+        "email",
+        "phoneNumber"
+      ]
+    },
+    "Booking": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Booking",
+      "type": "object",
+      "description": "Represents a booking for a service.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the booking.",
+          "format": "uuid"
+        },
+        "userId": {
+          "type": "string",
+          "description": "Reference to the User who made the booking. (Relationship: User 1:N Booking)"
+        },
+        "serviceType": {
+          "type": "string",
+          "description": "The type of service booked (e.g., Domestic Assistance, Shopping Assistance)."
+        },
+        "bookingDate": {
+          "type": "string",
+          "description": "The date of the booking.",
+          "format": "date-time"
+        },
+        "startTime": {
+          "type": "string",
+          "description": "The start time for the service."
+        },
+        "endTime": {
+          "type": "string",
+          "description": "The end time for the service."
+        },
+        "details": {
+          "type": "string",
+          "description": "Additional details or instructions for the booking."
+        }
+      },
+      "required": [
+        "id",
+        "userId",
+        "serviceType",
+        "bookingDate",
+        "startTime",
+        "endTime",
+        "details"
+      ]
+    }
+  },
+  "auth": {
+    "providers": [
+      "google",
+      "anonymous"
+    ]
+  },
+  "firestore": {
+    "structure": [
+      {
+        "path": "/users/{userId}",
+        "definition": {
+          "entityName": "User",
+          "schema": {
+            "$ref": "#/backend/entities/User"
+          },
+          "description": "Stores user profiles. Path-based ownership ensures only the authenticated user can access their own profile.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier for the user."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}/bookings/{bookingId}",
+        "definition": {
+          "entityName": "Booking",
+          "schema": {
+            "$ref": "#/backend/entities/Booking"
+          },
+          "description": "Stores bookings made by a specific user. Path-based ownership ensures only the authenticated user can access their own bookings.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier for the user who made the booking."
+            },
+            {
+              "name": "bookingId",
+              "description": "The unique identifier for the booking."
+            }
+          ]
+        }
+      }
+    ],
+    "reasoning": "The Firestore structure is designed to ensure Authorization Independence, DBAC, and QAPs. User data is stored under `/users/{userId}`, providing a clear path-based ownership model. Bookings are stored as subcollections under each user's document (`/users/{userId}/bookings/{bookingId}`), maintaining a 1:N relationship between users and bookings. This structure avoids hierarchical authorization dependencies, as access control is based solely on the authenticated `userId` matching the path. Denormalization is not required in this simple scenario, as the primary security requirement is that a user can only access their own bookings. This structure supports secure `list` operations because listing bookings is restricted to the authenticated user's subcollection, preventing unauthorized access to other users' bookings. This ensures QAPs are satisfied, as rules can easily enforce that only the logged-in user can access bookings under their user ID. All documents within each collection share the same security requirements, simplifying rules."
+  }
+}
