@@ -74,50 +74,52 @@ export default function BookingForm() {
     }
   }, [state, toast]);
 
-  // 🔥 PHP SUBMIT — NO Next.js Server Actions
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+// 🔥 SUBMIT USING NEXT.JS API (Nodemailer)
+const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+  event.preventDefault();
 
-    if (!user) {
-      setState({
-        message: "You must be logged in to make a booking.",
-        errors: { _form: ["Authentication required."] },
-      });
-      return;
+  if (!user) {
+    setState({
+      message: "You must be logged in to make a booking.",
+      errors: { _form: ["Authentication required."] },
+    });
+    return;
+  }
+
+  setPending(true);
+  setState(initialState);
+
+  const formData = new FormData(event.currentTarget);
+  formData.set("userId", user.uid);
+  formData.set("bookingDate", date ? format(date, "yyyy-MM-dd") : "");
+
+  // Convert FormData → JSON
+  const payload = Object.fromEntries(formData.entries());
+
+  try {
+    const response = await fetch("/api/send-mail", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+      setState({ message: data.message, errors: null });
+    } else {
+      setState({ message: data.message, errors: { _form: [data.message] } });
     }
+  } catch (error) {
+    setState({
+      message: "Something went wrong while submitting.",
+      errors: { _form: ["Network error."] },
+    });
+  }
 
-    setPending(true);
-    setState(initialState);
+  setPending(false);
+};
 
-    const formData = new FormData(event.currentTarget);
-    formData.set("userId", user.uid);
-    formData.set("bookingDate", date ? format(date, "yyyy-MM-dd") : "");
-
-    try {
-      const response = await fetch("http://localhost/booking.php", {
-        method: "POST",
-        body: formData,
-      });
-
-      const data = await response.json();
-
-      if (data.success) {
-        setState({ message: data.message, errors: null });
-      } else {
-        setState({
-          message: data.message,
-          errors: { _form: [data.message] },
-        });
-      }
-    } catch (error) {
-      setState({
-        message: "Something went wrong while submitting.",
-        errors: { _form: ["Network error."] },
-      });
-    }
-
-    setPending(false);
-  };
 
   return (
     <Card className="w-full shadow-lg">
