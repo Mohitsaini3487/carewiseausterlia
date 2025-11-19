@@ -120,6 +120,38 @@ const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
   setPending(false);
 };
 
+<<<<<<< HEAD
+=======
+    const formData = new FormData(event.currentTarget);
+    formData.set("userId", user.uid);
+    formData.set("bookingDate", date ? format(date, "yyyy-MM-dd") : "");
+
+    try {
+      const response = await fetch("https://carewiseausterlia.vercel.app//booking.php", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setState({ message: data.message, errors: null });
+      } else {
+        setState({
+          message: data.message,
+          errors: { _form: [data.message] },
+        });
+      }
+    } catch (error) {
+      setState({
+        message: "Something went wrong while submitting.",
+        errors: { _form: ["Network error."] },
+      });
+    }
+
+    setPending(false);
+  };
+>>>>>>> f79d861a58847cac3601f5d86e6b1e336171e5dd
 
   return (
     <Card className="w-full shadow-lg">
